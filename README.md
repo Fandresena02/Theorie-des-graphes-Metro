@@ -1,2 +1,2 @@
-# Th-orie-des-graphes-M-tro
+# Theorie-des-graphes-Metro
 Métro-Boulot-Dodo
