@@ -5,18 +5,34 @@ def lire_fichier_aretes(fichier):
     dic = {}
     liste = []
     lignes = fichier.readlines()
+
     for ligne in lignes:
+
         numero = ligne.split()
+
         if (liste):
             if int(numero[1]) in liste:
+
                 dic.update(
                     {int(numero[1]): {**(dic.get(int(numero[1]))), **{int(numero[2]): int(numero[3])}}})
             else:
                 dic.update({int(numero[1]): {int(numero[2]): int(numero[3])}})
+            if int(numero[2]) in liste:
+
+                dic.update(
+                    {int(numero[2]): {**(dic.get(int(numero[2]))), **{int(numero[1]): int(numero[3])}}})
+            else:
+                dic.update({int(numero[2]): {int(numero[1]): int(numero[3])}})
+
         else:
             dic.update({int(numero[1]): {int(numero[2]): int(numero[3])}})
+            dic.update({int(numero[2]): {int(numero[1]): int(numero[3])}})
+
         if numero[1] not in liste:
             liste.append(int(numero[1]))
+        if numero[2] not in liste:
+            liste.append(int(numero[2]))
+
     return dic
 
 def lire_fichier_sommets(nom_fichier):
@@ -24,7 +40,7 @@ def lire_fichier_sommets(nom_fichier):
     # with open(nom_fichier, "r") as filin :
     for ligne in nom_fichier:
         lst = ligne.split(";")
-        dico = {"numero_sommet" : int(lst[1]), "nom_sommet" : lst[2], "ligne" : lst[3], "terminus" : lst[4], "branchement" : int(lst[5])}
+        dico = {"numero_sommet" : int(lst[1]), "nom_sommet" : lst[2].strip(), "ligne" : lst[3], "terminus" : lst[4], "branchement" : int(lst[5])}
         lst_f.append(dico)
     return lst_f
 
@@ -32,7 +48,6 @@ stations=lire_fichier_sommets(fichier_sommets)
 
 voisins_sommets=lire_fichier_aretes(fichier_aretes)
 
-print(voisins_sommets)
 def is_station_in_chemin(chemin, num_station):
     for station in chemin:
         if station[0]==num_station: return 1;
@@ -62,14 +77,17 @@ def algo_durees_min(depart):
     #initialisation du tableau de distances_min
     for sommet in voisins_sommets:
         #print(list(voisins_sommets.values())[station-1])
-        print(sommet)
+        #print(sommet)
         durees_min[sommet]=None
         peres[sommet]=None
     
     #definition du numéro de départ
     for station in stations:
-        if station['nom_sommet']==depart: num_dep=station['numero_sommet']    
+        print(station['nom_sommet'])
+        if station['nom_sommet'].__eq__(depart): 
+            num_dep=station['numero_sommet']    
     
+    print(num_dep)
     # boucle jusqu'à trouver la station
     station_courante=[num_dep,0]
     durees_min[num_dep]=station_courante[1]
@@ -80,7 +98,7 @@ def algo_durees_min(depart):
         for sommet in voisins_sommets:
             
             if sommet==station_courante[0]:
-                print(list(voisins_sommets.values())[sommet])
+                #print(list(voisins_sommets.values())[sommet])
                 for voisin in list(voisins_sommets.values())[sommet]:
                     
                     addition_durees=durees_min[sommet]+list(voisins_sommets.values())[sommet][voisin]
@@ -127,7 +145,7 @@ def parcours_chemin(durees_min, peres, depart, arrivee):
     # définition des numéros de départ et d'arrivée
     for station in stations:
         if station['nom_sommet']==depart: num_dep=station['numero_sommet']
-        if station['nom_sommet']==arrivee: num_arr=station['numero_sommet']  
+        if station['nom_sommet']==arrivee: num_arr=station['numero_sommet'] 
             
     # parcours du chemin à l'envers (par le bas)
     itineraire=[]
@@ -158,7 +176,7 @@ def parcours_chemin(durees_min, peres, depart, arrivee):
             print('Vous êtes à', station['nom_sommet'])
         
         # détermination de la ligne
-        elif station_precedente['num']==num_dep: 
+        elif station_precedente['numero_sommet']==num_dep: 
             print('Prenez la ligne', get_ligne_lien(station_precedente, station))
         
         #indication de changement de ligne   
@@ -167,7 +185,7 @@ def parcours_chemin(durees_min, peres, depart, arrivee):
         
         #arrivee
         if station['numero_sommet']==num_arr: 
-            print('Vous devriez arriver à', station['nom'], 'dans environ', durees_min[station['numero_sommet']], 'minutes')
+            print('Vous devriez arriver à', station['nom_sommet'], 'dans environ', durees_min[station['numero_sommet']], 'minutes')
         
         station_precedente=station
 
