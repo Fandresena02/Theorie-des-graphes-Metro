@@ -215,7 +215,7 @@ def parcours_chemin(durees_min, peres, depart, arrivee):
         #indication de changement de ligne   
         if changement :
             ligne = get_ligne_lien(station_precedente, station)
-            print('A', station['nom_sommet'], 'changez et prenez la ligne', station['ligne'], 'en direction de', get_direction(station_precedente, station, ligne))
+            print('A', station_precedente['nom_sommet'], 'changez et prenez la ligne', station_precedente['ligne'], 'en direction de', get_direction(station_precedente, station, ligne))
             changement = False
         
         # reperage de changement de ligne
