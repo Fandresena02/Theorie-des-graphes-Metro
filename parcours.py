@@ -125,6 +125,7 @@ def get_station(num_station):
 
 def get_station_de_ligne(nom_station, ligne):
     for station in stations:
+        #print(station['ligne'], station['ligne']==ligne)
         if station['nom_sommet']==nom_station and station['ligne']==ligne: 
             return station
     return None
@@ -147,8 +148,10 @@ def get_ligne_lien(station1, station2):
     return None    
         
 def get_direction(station1, station2, ligne):
-    station = get_station_de_ligne(station2['nom_sommet'], ligne)
+    
     stationPrecedente = get_station_de_ligne(station1['nom_sommet'], ligne)
+    
+    station = get_station_de_ligne(station2['nom_sommet'], ligne)
     
     while station['terminus'].strip()=='False':
         
@@ -196,6 +199,7 @@ def parcours_chemin(durees_min, peres, depart, arrivee):
     # affichage de l'itinéraire
     station=get_station(num_dep)
     station_precedente=station
+    changement = False
     
     for station in reversed(itineraire):
 
@@ -209,8 +213,14 @@ def parcours_chemin(durees_min, peres, depart, arrivee):
             print('Prenez la ligne', ligne, 'en direction de', get_direction(station_precedente, station, ligne))
         
         #indication de changement de ligne   
+        if changement :
+            ligne = get_ligne_lien(station_precedente, station)
+            print('A', station['nom_sommet'], 'changez et prenez la ligne', station['ligne'], 'en direction de', get_direction(station_precedente, station, ligne))
+            changement = False
+        
+        # reperage de changement de ligne
         if station['numero_sommet']!=num_dep and station_precedente['ligne']!=station['ligne'] and station['numero_sommet']!=num_arr:
-            print('A', station['nom_sommet'], 'changez et prenez la ligne ', station['ligne'])
+            changement = True
         
         #arrivee
         if station['numero_sommet']==num_arr: 
@@ -218,8 +228,8 @@ def parcours_chemin(durees_min, peres, depart, arrivee):
         
         station_precedente=station
 
-depart='Poissonnière'
-arrivee='Gare du Nord'
+depart='Carrefour Pleyel'
+arrivee='Villejuif, P. Vaillant Couturier'
 
 durees_min,peres=algo_durees_min(depart)
 
