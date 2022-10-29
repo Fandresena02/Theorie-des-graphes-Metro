@@ -1,7 +1,4 @@
-# fichier = open("aretes.txt", "r")
-
-
-def fichier_arete(fichier):
+def fichier_aretes(fichier):
     dic = {}
     liste = []
     lignes = fichier.readlines()
@@ -34,9 +31,3 @@ def fichier_arete(fichier):
             liste.append(int(numero[2]))
 
     return dic
-
-
-# dico = fichier_arete(fichier)
-# for cle in sorted(dico.keys()):
-#     print("L'élément de clé", cle, "vaut", dico[cle])
-# fichier.close()
