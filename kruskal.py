@@ -62,9 +62,9 @@ class Graphe :
         for u, v, poids in resultat:
             poids_totale_apcm += poids
 
-        print("Le poids du plus court chemin est de ", poids_totale_apcm)
+        print("\nLe poids du plus court chemin est de ", poids_totale_apcm)
+        print("\n\nOn obtient un resultat : \n", resultat)
 
-        return resultat
 
 
 def fichier_arete_list_triee_par_duree(fichier):
@@ -97,4 +97,5 @@ if __name__ == '__main__':
     for element in liste_triee:
         g2.ajouter_arete(element[1],element[2],element[3])
 
-    print(g2.kruskal())
+    g2.kruskal()
+
