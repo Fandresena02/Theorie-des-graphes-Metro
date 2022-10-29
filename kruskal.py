@@ -1,141 +1,100 @@
-# Une classe pour représenter un ensemble disjoint
-class DisjointSet:
-    parent = {}
- 
-    # effectue l'opération MakeSet
-    def makeSet(self, n):
-        # créer `n` ensembles disjoints (un pour chaque sommet)
-        for i in range(n):
-            self.parent[i] = i
- 
-    # Trouver la racine de l'ensemble auquel appartient l'élément `k`
-    def find(self, k):
-        # si `k` est racine
-        if self.parent[k] == k:
-            return k
- 
-        # se reproduisent pour le parent jusqu'à ce que nous trouvions la racine
-        return self.find(self.parent[k])
- 
-    # Perform Union de deux sous-ensembles
-    def union(self, a, b):
-        # trouver la racine des ensembles auxquels appartiennent les éléments `x` et `y`
-        x = self.find(a)
-        y = self.find(b)
- 
-        self.parent[x] = y
- 
- 
-# Fonction pour construire pcm en utilisant l'algorithme de Kruskal
-def kruskal(sommets, n):
- 
-    # stocke les arêtes présentes dans pcm
-    pcm = []
- 
-    # Initialise la classe `DisjointSet`.
-    # Créer un ensemble singleton pour chaque élément de l'univers.
-    ds = DisjointSet()
-    ds.makeSet(n)
- 
-    index = 0
- 
-    # trier les arêtes par poids croissant
-    sommets.sort(key=lambda x: x[2])
- 
-    # pcm contient exactement les arêtes `V-1`
-    while len(pcm) != n - 1:
- 
-        # considère le bord suivant avec un poids minimum du graph
-        (src, dest, weight) = sommets[index]
-        index = index + 1
- 
-        # trouver la racine des ensembles auxquels deux extrémités
-        # sommets de l'arête suivante appartiennent
-        x = ds.find(src)
-        y = ds.find(dest)
- 
-        # si les deux points de terminaison ont des parents différents, ils appartiennent à
-        # différents composants connectés et peuvent être inclus dans pcm
-        if x != y:
-            pcm.append((src, dest, weight))
-            ds.union(x, y)
- 
-    return pcm
+import operator
 
+fichier_sommets= open("sommets.txt", "r")
 fichier_aretes = open("aretes.txt", "r")
-fichier_sommets = open("sommets.txt", 'r')
 
-def lire_fichier_aretes(fichier):
-    dic = {}
+class UnionFind : 
+    def find(self, parent, i):
+        if parent[i] != i:
+            parent[i] = self.find(parent, parent[i])
+        return parent[i]
+ 
+ 
+    def union(self, parent, rang, x, y):
+        if rang[x] < rang[y]:
+            parent[x] = y
+
+        elif rang[x] > rang[y]:
+            parent[y] = x
+ 
+        else:
+            parent[y] = x
+            rang[x] += 1
+
+class Graphe :
+
+    def __init__(self, aretes):
+        self.V = aretes  
+        self.Graphe = []
+
+    def ajouter_arete(self, u, v, p):
+        self.Graphe.append([u, v, p])
+
+    def kruskal(self):
+
+        un = UnionFind()
+        resultat = []
+        i = 0
+        index_in_resultat = 0
+
+        self.Graphe = sorted(self.Graphe, key=lambda x: x[2])
+        parent = []
+        rang = []
+ 
+        for sommet in range(self.V):
+            parent.append(sommet)
+            rang.append(0)
+ 
+        while index_in_resultat < self.V - 1:
+            u, v, w = self.Graphe[i]
+            i = i + 1
+
+            x = un.find(parent, u)
+            y = un.find(parent, v)
+
+            if x != y:
+                index_in_resultat = index_in_resultat + 1
+                resultat.append([u, v, w])
+                un.union(parent, rang, x, y)
+
+        poids_totale_apcm = 0
+
+        for u, v, poids in resultat:
+            poids_totale_apcm += poids
+
+        print("Le poids du plus court chemin est de ", poids_totale_apcm)
+
+        return resultat
+
+
+def fichier_arete_list_triee_par_duree(fichier):
     liste = []
+    liste_triee = []
     lignes = fichier.readlines()
 
     for ligne in lignes:
-
         numero = ligne.split()
+        numero[1]= int(numero[1])
+        numero[2]= int(numero[2])
+        numero[3]= int(numero[3])
+        liste.append(numero)
+        
+    liste_triee = sorted(liste, key=operator.itemgetter(3))
 
-        if (liste):
-            if int(numero[1]) in liste:
+    return liste_triee
 
-                dic.update(
-                    {int(numero[1]): {**(dic.get(int(numero[1]))), **{int(numero[2]): int(numero[3])}}})
-            else:
-                dic.update({int(numero[1]): {int(numero[2]): int(numero[3])}})
-            if int(numero[2]) in liste:
 
-                dic.update(
-                    {int(numero[2]): {**(dic.get(int(numero[2]))), **{int(numero[1]): int(numero[3])}}})
-            else:
-                dic.update({int(numero[2]): {int(numero[1]): int(numero[3])}})
-
-        else:
-            dic.update({int(numero[1]): {int(numero[2]): int(numero[3])}})
-            dic.update({int(numero[2]): {int(numero[1]): int(numero[3])}})
-
-        if numero[1] not in liste:
-            liste.append(int(numero[1]))
-        if numero[2] not in liste:
-            liste.append(int(numero[2]))
-
-    return dic
-
-def lire_fichier_sommets(nom_fichier):
-    lst_f = []
-    # with open(nom_fichier, "r") as filin :
-    for ligne in nom_fichier:
-        lst = ligne.split(";")
-        dico = {"numero_sommet" : int(lst[1]), "nom_sommet" : lst[2].strip(), "ligne" : lst[3].strip(), "terminus" : lst[4].strip(), "branchement" : int(lst[5])}
-        lst_f.append(dico)
-    return lst_f
-
-def getLiaisons():
-    liaisons = []
+if __name__ == '__main__':
     
-    #initialisation du tableau liaisons contenant des éléments de format (sommet1, sommet2, temps)
-    for sommet in voisins_sommets_tries:
-        for voisin in list(voisins_sommets_tries.values())[sommet]:
-            liaisons.append((sommet,voisin,list(voisins_sommets_tries.values())[sommet][voisin]))
-    return liaisons 
+    liste_triee = fichier_arete_list_triee_par_duree(fichier_aretes)
+
+    nb_sommets = 0
+    for ligne in fichier_sommets:
+        nb_sommets+=1
+
+    g2 = Graphe(nb_sommets)
     
+    for element in liste_triee:
+        g2.ajouter_arete(element[1],element[2],element[3])
 
-stations=lire_fichier_sommets(fichier_sommets)
-
-voisins_sommets=lire_fichier_aretes(fichier_aretes)
-voisins_sommets_keys = sorted(voisins_sommets.keys())
-
-voisins_sommets_tries = {}
-for key in voisins_sommets_keys:
-    voisins_sommets_tries[key] = voisins_sommets[key]
-    
-sommets = getLiaisons()
-
-# nombre total de sommets dans le graphe
-n = len(voisins_sommets)
-
-# graphe de construction
-graphe_kruskal = kruskal(sommets, n)
-
-print(graphe_kruskal)
-
-fichier_aretes.close()
-fichier_sommets.close()
+    print(g2.kruskal())
