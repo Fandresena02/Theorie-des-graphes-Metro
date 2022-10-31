@@ -16,8 +16,8 @@ for key in voisins_sommets_keys:
 
 def is_station_in_chemin(chemin, num_station):
     for station in chemin:
-        if station[0]==num_station: return 1;
-    return 0;
+        if station[0]==num_station: return 1
+    return 0
 
 
 def station_duree_min(durees_min, stations_vues, chemin):
