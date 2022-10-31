@@ -98,4 +98,3 @@ if __name__ == '__main__':
         g2.ajouter_arete(element[1],element[2],element[3])
 
     g2.kruskal()
-
