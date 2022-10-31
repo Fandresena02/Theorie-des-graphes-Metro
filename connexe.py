@@ -34,8 +34,9 @@ def connexe(fichier, fichier1):
     return True
 
 #TESTS
-fichier = open("sommets.txt", 'r')
-fichier1 = open("aretes.txt", 'r')
-print(connexe(fichier, fichier1))
-fichier.close()
-fichier1.close()
+if __name__ == '__main__':
+    fichier = open("sommets.txt", 'r')
+    fichier1 = open("aretes.txt", 'r')
+    print(connexe(fichier, fichier1))
+    fichier.close()
+    fichier1.close()
