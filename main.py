@@ -24,7 +24,7 @@ if __name__ == '__main__':
         fichier_sommets = open("sommets.txt", 'r')
         choix_possible = [1, 2, 3, 4]
         choix = int(input(
-            "Bienvenue dans Metro-Boulo-Dodo.Le menu :\n1-Chemin\n2-Connexe\n3-ACPM\n4-Quitter\nVotre choix: "))
+            "\nBienvenue dans Metro-Boulo-Dodo.Le menu :\n1-Chemin\n2-Connexe\n3-ACPM\n4-Quitter\nVotre choix: "))
         while (choix not in choix_possible):
             choix = int(input(
                 "CHOIX INVALIDE\nEntrez votre choix:\n1-Chemin\n2-Connexe\n3-ACPM\n4-Quitter\nVotre choix: "))
