@@ -1,52 +1,12 @@
+import lire_fichier_aretes
+import lire_fichier_sommets
+
 fichier_aretes = open("aretes.txt", "r")
 fichier_sommets = open("sommets.txt", 'r')
 
-def lire_fichier_aretes(fichier):
-    dic = {}
-    liste = []
-    lignes = fichier.readlines()
+stations=lire_fichier_sommets.fichier_sommets(fichier_sommets)
 
-    for ligne in lignes:
-
-        numero = ligne.split()
-
-        if (liste):
-            if int(numero[1]) in liste:
-
-                dic.update(
-                    {int(numero[1]): {**(dic.get(int(numero[1]))), **{int(numero[2]): int(numero[3])}}})
-            else:
-                dic.update({int(numero[1]): {int(numero[2]): int(numero[3])}})
-            if int(numero[2]) in liste:
-
-                dic.update(
-                    {int(numero[2]): {**(dic.get(int(numero[2]))), **{int(numero[1]): int(numero[3])}}})
-            else:
-                dic.update({int(numero[2]): {int(numero[1]): int(numero[3])}})
-
-        else:
-            dic.update({int(numero[1]): {int(numero[2]): int(numero[3])}})
-            dic.update({int(numero[2]): {int(numero[1]): int(numero[3])}})
-
-        if numero[1] not in liste:
-            liste.append(int(numero[1]))
-        if numero[2] not in liste:
-            liste.append(int(numero[2]))
-
-    return dic
-
-def lire_fichier_sommets(nom_fichier):
-    lst_f = []
-    # with open(nom_fichier, "r") as filin :
-    for ligne in nom_fichier:
-        lst = ligne.split(";")
-        dico = {"numero_sommet" : int(lst[1]), "nom_sommet" : lst[2].strip(), "ligne" : lst[3].strip(), "terminus" : lst[4].strip(), "branchement" : int(lst[5])}
-        lst_f.append(dico)
-    return lst_f
-
-stations=lire_fichier_sommets(fichier_sommets)
-
-voisins_sommets=lire_fichier_aretes(fichier_aretes)
+voisins_sommets=lire_fichier_aretes.fichier_aretes(fichier_aretes)
 voisins_sommets_keys = sorted(voisins_sommets.keys())
 
 voisins_sommets_tries = {}
@@ -228,12 +188,6 @@ def parcours_chemin(durees_min, peres, depart, arrivee):
         
         station_precedente=station
 
-depart='Carrefour Pleyel'
-arrivee='Villejuif, P. Vaillant Couturier'
-
-durees_min,peres=algo_durees_min(depart)
-
-parcours_chemin(durees_min, peres, depart, arrivee)
-
-fichier_aretes.close()
-fichier_sommets.close()
+if __name__ == '__main__':
+    fichier_aretes.close()
+    fichier_sommets.close()
