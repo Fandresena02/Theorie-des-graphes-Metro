@@ -1,6 +1,6 @@
 import operator
 
-fichier_sommets = open("sommets.txt", "r")
+fichier_sommets = open("sommets.txt", "r", encoding="utf-8")
 fichier_aretes = open("aretes.txt", "r")
 
 
