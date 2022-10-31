@@ -1,30 +1,31 @@
 import operator
 
-fichier_sommets= open("sommets.txt", "r")
+fichier_sommets = open("sommets.txt", "r")
 fichier_aretes = open("aretes.txt", "r")
 
-class UnionFind : 
+
+class UnionFind:
     def find(self, parent, i):
         if parent[i] != i:
             parent[i] = self.find(parent, parent[i])
         return parent[i]
- 
- 
+
     def union(self, parent, rang, x, y):
         if rang[x] < rang[y]:
             parent[x] = y
 
         elif rang[x] > rang[y]:
             parent[y] = x
- 
+
         else:
             parent[y] = x
             rang[x] += 1
 
-class Graphe :
+
+class Graphe:
 
     def __init__(self, aretes):
-        self.V = aretes  
+        self.V = aretes
         self.Graphe = []
 
     def ajouter_arete(self, u, v, p):
@@ -40,11 +41,11 @@ class Graphe :
         self.Graphe = sorted(self.Graphe, key=lambda x: x[2])
         parent = []
         rang = []
- 
+
         for sommet in range(self.V):
             parent.append(sommet)
             rang.append(0)
- 
+
         while index_in_resultat < self.V - 1:
             u, v, w = self.Graphe[i]
             i = i + 1
@@ -63,8 +64,9 @@ class Graphe :
             poids_totale_apcm += poids
 
         print("\nLe poids du plus court chemin est de ", poids_totale_apcm)
-        print("\n\nOn obtient un resultat : \n", resultat)
-
+        print("\n\nOn obtient un resultat : \n")
+        for u, v, poids in resultat:
+            print(u, " -- ", v, "Durée: ", poids)
 
 
 def fichier_arete_list_triee_par_duree(fichier):
@@ -74,27 +76,27 @@ def fichier_arete_list_triee_par_duree(fichier):
 
     for ligne in lignes:
         numero = ligne.split()
-        numero[1]= int(numero[1])
-        numero[2]= int(numero[2])
-        numero[3]= int(numero[3])
+        numero[1] = int(numero[1])
+        numero[2] = int(numero[2])
+        numero[3] = int(numero[3])
         liste.append(numero)
-        
+
     liste_triee = sorted(liste, key=operator.itemgetter(3))
 
     return liste_triee
 
 
-if __name__ == '__main__':
-    
+def Compiler(fichier_aretes, fichier_sommets):
+
     liste_triee = fichier_arete_list_triee_par_duree(fichier_aretes)
 
     nb_sommets = 0
     for ligne in fichier_sommets:
-        nb_sommets+=1
+        nb_sommets += 1
 
     g2 = Graphe(nb_sommets)
-    
+
     for element in liste_triee:
-        g2.ajouter_arete(element[1],element[2],element[3])
+        g2.ajouter_arete(element[1], element[2], element[3])
 
     g2.kruskal()

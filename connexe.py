@@ -8,7 +8,7 @@ def exist_chemin(matrice, nombre_sommets, u, v):
     file = []
     visites = [False] * nombre_sommets
     file.append(u)
-    while(file):
+    while (file):
         actuel = file.pop(0)
         visites[actuel] = True
         for i in range(nombre_sommets):
@@ -33,10 +33,10 @@ def connexe(fichier, fichier1):
                     return False
     return True
 
-#TESTS
-if __name__ == '__main__':
-    fichier = open("sommets.txt", 'r')
-    fichier1 = open("aretes.txt", 'r')
-    print(connexe(fichier, fichier1))
-    fichier.close()
-    fichier1.close()
+# TESTS
+# if __name__ == '__main__':
+#     fichier = open("sommets.txt", 'r')
+#     fichier1 = open("aretes.txt", 'r')
+#     print(connexe(fichier, fichier1))
+#     fichier.close()
+#     fichier1.close()
