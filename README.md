@@ -7,7 +7,7 @@ Membre du groupe :
 - RAKOTOMAHEFA Fandresena
 - NGUYEN Lê-Dan
 
-- Pour lancer le programme principal:
+Pour lancer le programme principal:
     ./main.py
     
 (si vous ne disposez pas des droits tapez "chmod 777 main.py"
