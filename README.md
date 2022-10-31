@@ -7,16 +7,8 @@ Membre du groupe :
 - RAKOTOMAHEFA Fandresena
 - NGUYEN Lê-Dan
 
-- Pour lancer le programme principal (selon votre version de python):
-    python3 main.py
-    ou
-    python main.py 
-   
-- Pour lancer le programme pour l'ACPM (selon votre version de python):
-    python3 kruskal.py
-    ou
-    python kruskal.py
-- Pour lancer le programme pour savoir si c'est connexe ou non (selon votre version de python):
-    python3 connexe.py
-    ou
-    python connexe.py
+- Pour lancer le programme principal:
+    ./main.py
+    
+(si vous ne disposez pas des droits tapez "chmod 777 main.py"
+    Vous arrivez sur le menu, à vous de choisir
